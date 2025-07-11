@@ -1,0 +1,2212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>40 Functional Tools Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>40 Functional Tools Dashboard</h1>
+    <div class="container" id="buttonContainer"></div>
+    <div id="output">Result will appear here...</div>
+
+    <script>
+        // Function to create the 40 buttons
+        function createButtons() {
+            const container = document.getElementById('buttonContainer');
+            const functions = [
+                {name: "Current Time", func: () => showTime()},
+                {name: "Random Number", func: () => generateRandomNumber()},
+                {name: "Word Count", func: () => countWords()},
+                {name: "Password Generator", func: () => generatePassword()},
+                {name: "Calculator", func: () => showCalculator()},
+                {name: "RGB to Hex", func: () => convertRGBtoHex()},
+                {name: "Weather Forecast", func: () => showWeatherPrompt()},
+                {name: "Currency Converter", func: () => convertCurrency()},
+                {name: "BMI Calculator", func: () => calculateBMI()},
+                {name: "Todo List", func: () => showTodoList()},
+                {name: "IP Locator", func: () => locateIP()},
+                {name: "Unit Converter", func: () => convertUnits()},
+                {name: "Palindrome Checker", func: () => checkPalindrome()},
+                {name: "Image Filter", func: () => applyImageFilter()},
+                {name: "Notes App", func: () => showNotesApp()},
+                {name: "QR Code Generator", func: () => generateQRCode()},
+                {name: "Dice Roller", func: () => rollDice()},
+                {name: "Countdown Timer", func: () => startCountdown()},
+                {name: "Color Picker", func: () => showColorPicker()},
+                {name: "Text Encoder", func: () => encodeText()},
+                {name: "Loan Calculator", func: () => calculateLoan()},
+                {name: "Drawing Board", func: () => showDrawingBoard()},
+                {name: "Tip Calculator", func: () => calculateTip()},
+                {name: "Age Calculator", func: () => calculateAge()},
+                {name: "Word Scramble", func: () => scrambleWord()},
+                {name: "URL Shortener", func: () => shortenURL()},
+                {name: "Calorie Counter", func: () => countCalories()},
+                {name: "Morse Code", func: () => convertToMorse()},
+                {name: "Binary Converter", func: () => convertToBinary()},
+                {name: "Speech to Text", func: () => speechToText()},
+                {name: "Text to Speech", func: () => textToSpeech()},
+                {name: "Pomodoro Timer", func: () => startPomodoro()},
+                {name: "Memory Game", func: () => playMemoryGame()},
+                {name: "Gradient Generator", func: () => generateGradient()},
+                {name: "Math Quiz", func: () => startMathQuiz()},
+                {name: "Character Counter", func: () => countCharacters()},
+                {name: "Expense Tracker", func: () => trackExpenses()},
+                {name: "Percentage Calculator", func: () => calculatePercentage()},
+                {name: "Stopwatch", func: () => startStopwatch()},
+                {name: "Hangman Game", func: () => playHangman()}
+            ];
+
+            functions.forEach((tool, index) => {
+                const button = document.createElement('button');
+                button.textContent = tool.name;
+                button.addEventListener('click', tool.func);
+                container.appendChild(button);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            createButtons();
+        });
+
+        // Output function
+        function setOutput(html) {
+            document.getElementById('output').innerHTML = html;
+        }
+
+        // 1. Current Time
+        function showTime() {
+            const now = new Date();
+            setOutput(`
+                <h3>Current Time</h3>
+                <p>Local time: ${now.toLocaleTimeString()}</p>
+                <p>Date: ${now.toLocaleDateString()}</p>
+                <p>UTC time: ${now.toUTCString()}</p>
+            `);
+        }
+
+        // 2. Random Number Generator
+        function generateRandomNumber() {
+            setOutput(`
+                <h3>Random Number Generator</h3>
+                <label>Min: <input type="number" id="minNum" value="1"></label>
+                <label>Max: <input type="number" id="maxNum" value="100"></label>
+                <button onclick="generateRandom()">Generate</button>
+                <p id="randomResult"></p>
+            `);
+        }
+
+        function generateRandom() {
+            const min = parseInt(document.getElementById('minNum').value);
+            const max = parseInt(document.getElementById('maxNum').value);
+            const result = Math.floor(Math.random() * (max - min + 1)) + min;
+            document.getElementById('randomResult').textContent = `Random number: ${result}`;
+        }
+
+        // 3. Word Counter
+        function countWords() {
+            setOutput(`
+                <h3>Word Counter</h3>
+                <textarea id="wordText" rows="5" style="width: 100%" placeholder="Type or paste text here..."></textarea>
+                <button onclick="performWordCount()">Count</button>
+                <div id="wordCountResult"></div>
+            `);
+        }
+
+        function performWordCount() {
+            const text = document.getElementById('wordText').value;
+            const wordCount = text.trim().split(/\s+/).filter(word => word !== '').length;
+            const charCount = text.length;
+            document.getElementById('wordCountResult').innerHTML = `
+                <p>Words: ${wordCount}</p>
+                <p>Characters: ${charCount}</p>
+                <p>Characters (without spaces): ${text.replace(/\s/g, '').length}</p>
+            `;
+        }
+
+        // 4. Password Generator
+        function generatePassword() {
+            setOutput(`
+                <h3>Password Generator</h3>
+                <label>Length: <input type="number" id="passLength" value="12" min="4" max="50"></label><br>
+                <label><input type="checkbox" id="includeUpper" checked> Uppercase</label>
+                <label><input type="checkbox" id="includeLower" checked> Lowercase</label>
+                <label><input type="checkbox" id="includeNumbers" checked> Numbers</label>
+                <label><input type="checkbox" id="includeSymbols" checked> Symbols</label>
+                <button onclick="createPassword()">Generate Password</button>
+                <p id="passwordResult"></p>
+            `);
+        }
+
+        function createPassword() {
+            const length = document.getElementById('passLength').value;
+            const upper = document.getElementById('includeUpper').checked;
+            const lower = document.getElementById('includeLower').checked;
+            const numbers = document.getElementById('includeNumbers').checked;
+            const symbols = document.getElementById('includeSymbols').checked;
+            
+            let chars = '';
+            if (upper) chars += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            if (lower) chars += 'abcdefghijklmnopqrstuvwxyz';
+            if (numbers) chars += '0123456789';
+            if (symbols) chars += '!@#$%^&*()_+[]{}|;:,.<>?';
+            
+            let password = '';
+            for (let i = 0; i < length; i++) {
+                password += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            
+            document.getElementById('passwordResult').textContent = password;
+        }
+
+        // 5. Calculator
+        function showCalculator() {
+            setOutput(`
+                <h3>Simple Calculator</h3>
+                <input type="text" id="calcDisplay" readonly><br>
+                <div id="calcButtons" style="display:grid; grid-template-columns: repeat(4, 1fr); gap: 5px; margin-top: 10px;">
+                    <button onclick="addToCalc('7')">7</button>
+                    <button onclick="addToCalc('8')">8</button>
+                    <button onclick="addToCalc('9')">9</button>
+                    <button onclick="addToCalc('+')">+</button>
+                    <button onclick="addToCalc('4')">4</button>
+                    <button onclick="addToCalc('5')">5</button>
+                    <button onclick="addToCalc('6')">6</button>
+                    <button onclick="addToCalc('-')">-</button>
+                    <button onclick="addToCalc('1')">1</button>
+                    <button onclick="addToCalc('2')">2</button>
+                    <button onclick="addToCalc('3')">3</button>
+                    <button onclick="addToCalc('*')">×</button>
+                    <button onclick="addToCalc('0')">0</button>
+                    <button onclick="addToCalc('.')">.</button>
+                    <button onclick="calculateResult()">=</button>
+                    <button onclick="addToCalc('/')">/</button>
+                    <button onclick="clearCalc()" style="grid-column: span 4;">Clear</button>
+                </div>
+            `);
+        }
+
+        function addToCalc(value) {
+            document.getElementById('calcDisplay').value += value;
+        }
+
+        function calculateResult() {
+            try {
+                document.getElementById('calcDisplay').value = eval(document.getElementById('calcDisplay').value);
+            } catch (e) {
+                document.getElementById('calcDisplay').value = 'Error';
+            }
+        }
+
+        function clearCalc() {
+            document.getElementById('calcDisplay').value = '';
+        }
+
+        // 6. RGB to Hex Converter
+        function convertRGBtoHex() {
+            setOutput(`
+                <h3>RGB to Hex Converter</h3>
+                <label>R: <input type="number" id="redValue" min="0" max="255" value="255"></label>
+                <label>G: <input type="number" id="greenValue" min="0" max="255" value="105"></label>
+                <label>B: <input type="number" id="blueValue" min="0" max="255" value="180"></label>
+                <button onclick="rgbToHex()">Convert</button>
+                <div id="colorPreview" style="width: 100px; height: 50px; margin: 10px 0;"></div>
+                <p id="hexResult"></p>
+            `);
+            rgbToHex();
+        }
+
+        function rgbToHex() {
+            const r = parseInt(document.getElementById('redValue').value);
+            const g = parseInt(document.getElementById('greenValue').value);
+            const b = parseInt(document.getElementById('blueValue').value);
+            
+            const hex = '#' + 
+                (r < 16 ? '0' : '') + r.toString(16) + 
+                (g < 16 ? '0' : '') + g.toString(16) + 
+                (b < 16 ? '0' : '') + b.toString(16);
+            
+            document.getElementById('hexResult').textContent = `Hex: ${hex}`;
+            document.getElementById('colorPreview').style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+        }
+
+        // 7. Weather Forecast
+        function showWeatherPrompt() {
+            setOutput(`
+                <h3>Weather Forecast</h3>
+                <p>Enter a city name to see the simulated weather forecast:</p>
+                <input type="text" id="cityInput" placeholder="City name">
+                <button onclick="showWeather()">Get Weather</button>
+                <div id="weatherResult"></div>
+            `);
+        }
+
+        function showWeather() {
+            const city = document.getElementById('cityInput').value;
+            if (!city) return;
+            
+            const conditions = ['Sunny', 'Partly Cloudy', 'Cloudy', 'Rainy', 'Thunderstorms', 'Snowy', 'Windy'];
+            const condition = conditions[Math.floor(Math.random() * conditions.length)];
+            const temp = Math.floor(Math.random() * 35) + 5; // 5-40°C
+            const humidity = Math.floor(Math.random() * 70) + 30; // 30-100%
+            const wind = Math.floor(Math.random() * 30) + 5; // 5-35 km/h
+            
+            document.getElementById('weatherResult').innerHTML = `
+                <h4>Weather for ${city}</h4>
+                <p>Condition: ${condition}</p>
+                <p>Temperature: ${temp}°C</p>
+                <p>Humidity: ${humidity}%</p>
+                <p>Wind: ${wind} km/h</p>
+                <p><small>Note: This is simulated data for demonstration purposes.</small></p>
+            `;
+        }
+
+        // 8. Currency Converter
+        function convertCurrency() {
+            setOutput(`
+                <h3>Currency Converter</h3>
+                <input type="number" id="currencyAmount" value="1">
+                <select id="fromCurrency">
+                    <option value="USD">USD</option>
+                    <option value="EUR">EUR</option>
+                    <option value="GBP">GBP</option>
+                    <option value="JPY">JPY</option>
+                    <option value="CAD">CAD</option>
+                </select>
+                <span>to</span>
+                <select id="toCurrency">
+                    <option value="EUR">EUR</option>
+                    <option value="USD">USD</option>
+                    <option value="GBP">GBP</option>
+                    <option value="JPY">JPY</option>
+                    <option value="CAD">CAD</option>
+                </select>
+                <button onclick="performCurrencyConversion()">Convert</button>
+                <p id="conversionResult"></p>
+            `);
+        }
+
+        function performCurrencyConversion() {
+            const amount = document.getElementById('currencyAmount').value;
+            const from = document.getElementById('fromCurrency').value;
+            const to = document.getElementById('toCurrency').value;
+            
+            // Sample conversion rates (fixed for demonstration)
+            const rates = {
+                'USD': { 'EUR': 0.92, 'GBP': 0.79, 'JPY': 149.8, 'CAD': 1.35, 'USD': 1 },
+                'EUR': { 'USD': 1.09, 'GBP': 0.86, 'JPY': 163.2, 'CAD': 1.47, 'EUR': 1 },
+                'GBP': { 'USD': 1.27, 'EUR': 1.16, 'JPY': 189.8, 'CAD': 1.71, 'GBP': 1 },
+                'JPY': { 'USD': 0.0067, 'EUR': 0.0061, 'GBP': 0.0053, 'CAD': 0.009, 'JPY': 1 },
+                'CAD': { 'USD': 0.74, 'EUR': 0.68, 'GBP': 0.58, 'JPY': 111, 'CAD': 1 }
+            };
+            
+            const result = (amount * rates[from][to]).toFixed(2);
+            document.getElementById('conversionResult').textContent = 
+                `${amount} ${from} = ${result} ${to}`;
+        }
+
+        // 9. BMI Calculator
+        function calculateBMI() {
+            setOutput(`
+                <h3>BMI Calculator</h3>
+                <div>
+                    <label>Weight (kg): <input type="number" id="weight" min="1" max="300" value="70"></label>
+                </div>
+                <div>
+                    <label>Height (cm): <input type="number" id="height" min="50" max="250" value="170"></label>
+                </div>
+                <button onclick="performBMICalculation()">Calculate BMI</button>
+                <div id="bmiResult"></div>
+            `);
+        }
+
+        function performBMICalculation() {
+            const weight = parseFloat(document.getElementById('weight').value);
+            const height = parseFloat(document.getElementById('height').value) / 100; // convert to meters
+            
+            if (weight && height) {
+                const bmi = weight / (height * height);
+                let category;
+                
+                if (bmi < 18.5) category = 'Underweight';
+                else if (bmi < 25) category = 'Normal weight';
+                else if (bmi < 30) category = 'Overweight';
+                else category = 'Obesity';
+                
+                document.getElementById('bmiResult').innerHTML = `
+                    <p>Your BMI: ${bmi.toFixed(1)}</p>
+                    <p>Category: ${category}</p>
+                `;
+            }
+        }
+
+        // 10. Todo List
+        function showTodoList() {
+            setOutput(`
+                <h3>Todo List</h3>
+                <div>
+                    <input type="text" id="todoInput" placeholder="Add a new task...">
+                    <button onclick="addTodoItem()">Add</button>
+                </div>
+                <ul id="todoList"></ul>
+            `);
+        }
+
+        function addTodoItem() {
+            const todoText = document.getElementById('todoInput').value.trim();
+            if (!todoText) return;
+            
+            const list = document.getElementById('todoList');
+            const li = document.createElement('li');
+            
+            li.innerHTML = `
+                <input type="checkbox" onchange="this.nextSibling.style.textDecoration = this.checked ? 'line-through' : 'none'">
+                <span>${todoText}</span>
+                <button onclick="this.parentElement.remove()">×</button>
+            `;
+            
+            list.appendChild(li);
+            document.getElementById('todoInput').value = '';
+        }
+
+        // 11. IP Locator
+        function locateIP() {
+            setOutput(`
+                <h3>IP Locator</h3>
+                <p>Enter an IP address or leave blank for your own IP:</p>
+                <input type="text" id="ipInput" placeholder="IP address">
+                <button onclick="findIPLocation()">Locate</button>
+                <div id="ipResult"></div>
+            `);
+        }
+
+        function findIPLocation() {
+            // In a real app, this would call an API
+            // Simulating result for demo purposes
+            document.getElementById('ipResult').innerHTML = `
+                <h4>IP Location</h4>
+                <p>IP: ${document.getElementById('ipInput').value || '192.168.1.1'}</p>
+                <p>Country: United States</p>
+                <p>City: San Francisco</p>
+                <p>ISP: Example ISP</p>
+                <p><small>Note: This is simulated data for demonstration purposes.</small></p>
+            `;
+        }
+
+        // 12. Unit Converter
+        function convertUnits() {
+            setOutput(`
+                <h3>Unit Converter</h3>
+                <select id="unitType">
+                    <option value="length">Length</option>
+                    <option value="weight">Weight</option>
+                    <option value="temperature">Temperature</option>
+                </select>
+                <div>
+                    <input type="number" id="unitInput" value="1">
+                    <select id="fromUnit">
+                        <option value="m">Meters</option>
+                        <option value="km">Kilometers</option>
+                        <option value="cm">Centimeters</option>
+                        <option value="inch">Inches</option>
+                        <option value="ft">Feet</option>
+                    </select>
+                    <span>to</span>
+                    <select id="toUnit">
+                        <option value="ft">Feet</option>
+                        <option value="m">Meters</option>
+                        <option value="km">Kilometers</option>
+                        <option value="cm">Centimeters</option>
+                        <option value="inch">Inches</option>
+                    </select>
+                </div>
+                <button onclick="performUnitConversion()">Convert</button>
+                <p id="unitResult"></p>
+            `);
+
+            document.getElementById('unitType').addEventListener('change', updateUnitOptions);
+            updateUnitOptions();
+        }
+
+        function updateUnitOptions() {
+    const type = document.getElementById('unitType').value;
+    const fromUnit = document.getElementById('fromUnit');
+    const toUnit = document.getElementById('toUnit');
+    
+    fromUnit.innerHTML = '';
+    toUnit.innerHTML = '';
+    
+    let options;
+    
+    if (type === 'length') {
+        options = [
+            {value: 'm', text: 'Meters'},
+            {value: 'km', text: 'Kilometers'},
+            {value: 'cm', text: 'Centimeters'},
+            {value: 'inch', text: 'Inches'},
+            {value: 'ft', text: 'Feet'}
+        ];
+    } else if (type === 'weight') {
+        options = [
+            {value: 'kg', text: 'Kilograms'},
+            {value: 'g', text: 'Grams'},
+            {value: 'lb', text: 'Pounds'},
+            {value: 'oz', text: 'Ounces'}
+        ];
+    } else if (type === 'temperature') {
+        options = [
+            {value: 'c', text: 'Celsius'},
+            {value: 'f', text: 'Fahrenheit'},
+            {value: 'k', text: 'Kelvin'}
+        ];
+    }
+    
+    options.forEach(opt => {
+        const fromOpt = document.createElement('option');
+        fromOpt.value = opt.value;
+        fromOpt.textContent = opt.text;
+        fromUnit.appendChild(fromOpt);
+        
+        const toOpt = document.createElement('option');
+        toOpt.value = opt.value;
+        toOpt.textContent = opt.text;
+        toUnit.appendChild(toOpt);
+    });
+    
+    // Set different default values
+    if (fromUnit.options.length > 0) fromUnit.selectedIndex = 0;
+    if (toUnit.options.length > 1) toUnit.selectedIndex = 1;
+}
+
+function performUnitConversion() {
+    const type = document.getElementById('unitType').value;
+    const value = parseFloat(document.getElementById('unitInput').value);
+    const fromUnit = document.getElementById('fromUnit').value;
+    const toUnit = document.getElementById('toUnit').value;
+    
+    let result;
+    
+    // Convert to base unit
+    let baseValue;
+    if (type === 'length') {
+        // Convert to meters first
+        if (fromUnit === 'm') baseValue = value;
+        else if (fromUnit === 'km') baseValue = value * 1000;
+        else if (fromUnit === 'cm') baseValue = value * 0.01;
+        else if (fromUnit === 'inch') baseValue = value * 0.0254;
+        else if (fromUnit === 'ft') baseValue = value * 0.3048;
+        
+        // Convert from meters to target
+        if (toUnit === 'm') result = baseValue;
+        else if (toUnit === 'km') result = baseValue / 1000;
+        else if (toUnit === 'cm') result = baseValue * 100;
+        else if (toUnit === 'inch') result = baseValue / 0.0254;
+        else if (toUnit === 'ft') result = baseValue / 0.3048;
+    } else if (type === 'weight') {
+        // Convert to kg first
+        if (fromUnit === 'kg') baseValue = value;
+        else if (fromUnit === 'g') baseValue = value / 1000;
+        else if (fromUnit === 'lb') baseValue = value * 0.453592;
+        else if (fromUnit === 'oz') baseValue = value * 0.0283495;
+        
+        // Convert from kg to target
+        if (toUnit === 'kg') result = baseValue;
+        else if (toUnit === 'g') result = baseValue * 1000;
+        else if (toUnit === 'lb') result = baseValue / 0.453592;
+        else if (toUnit === 'oz') result = baseValue / 0.0283495;
+    } else if (type === 'temperature') {
+        // Temperature conversion is different
+        if (fromUnit === 'c' && toUnit === 'f') {
+            result = (value * 9/5) + 32;
+        } else if (fromUnit === 'c' && toUnit === 'k') {
+            result = value + 273.15;
+        } else if (fromUnit === 'f' && toUnit === 'c') {
+            result = (value - 32) * 5/9;
+        } else if (fromUnit === 'f' && toUnit === 'k') {
+            result = (value - 32) * 5/9 + 273.15;
+        } else if (fromUnit === 'k' && toUnit === 'c') {
+            result = value - 273.15;
+        } else if (fromUnit === 'k' && toUnit === 'f') {
+            result = (value - 273.15) * 9/5 + 32;
+        } else {
+            result = value; // Same unit
+        }
+    }
+    
+    document.getElementById('unitResult').textContent = 
+        `${value} ${fromUnit} = ${result.toFixed(2)} ${toUnit}`;
+}
+
+// 13. Palindrome Checker
+function checkPalindrome() {
+    setOutput(`
+        <h3>Palindrome Checker</h3>
+        <input type="text" id="palindromeInput" placeholder="Enter a word or phrase">
+        <button onclick="isPalindrome()">Check</button>
+        <p id="palindromeResult"></p>
+    `);
+}
+
+function isPalindrome() {
+    const text = document.getElementById('palindromeInput').value.toLowerCase();
+    const cleanText = text.replace(/[^a-z0-9]/g, '');
+    const reversed = cleanText.split('').reverse().join('');
+    const isPal = cleanText === reversed;
+    
+    document.getElementById('palindromeResult').innerHTML = 
+        isPal ? `"${text}" is a palindrome!` : `"${text}" is not a palindrome.`;
+}
+
+// 14. Image Filter
+function applyImageFilter() {
+    setOutput(`
+        <h3>Image Filter Simulator</h3>
+        <p>This is a simulation of image filters.</p>
+        <div style="width: 300px; height: 200px; background-color: #3498db; margin: 10px 0;" id="imageBox"></div>
+        <div>
+            <button onclick="changeFilter('grayscale')">Grayscale</button>
+            <button onclick="changeFilter('sepia')">Sepia</button>
+            <button onclick="changeFilter('invert')">Invert</button>
+            <button onclick="changeFilter('blur')">Blur</button>
+            <button onclick="changeFilter('none')">Normal</button>
+        </div>
+    `);
+}
+
+function changeFilter(filter) {
+    const box = document.getElementById('imageBox');
+    box.style.filter = 'none';
+    
+    if (filter === 'grayscale') box.style.filter = 'grayscale(100%)';
+    else if (filter === 'sepia') box.style.filter = 'sepia(100%)';
+    else if (filter === 'invert') box.style.filter = 'invert(100%)';
+    else if (filter === 'blur') box.style.filter = 'blur(5px)';
+}
+
+// 15. Notes App
+function showNotesApp() {
+    // Check if we have stored notes
+    let notes = [];
+    if (localStorage.getItem('notes')) {
+        try {
+            notes = JSON.parse(localStorage.getItem('notes'));
+        } catch (e) {
+            notes = [];
+        }
+    }
+    
+    let notesHTML = '';
+    notes.forEach((note, index) => {
+        notesHTML += `
+            <div style="border: 1px solid #ddd; padding: 10px; margin: 10px 0;">
+                <h4>${note.title}</h4>
+                <p>${note.content}</p>
+                <button onclick="deleteNote(${index})">Delete</button>
+            </div>
+        `;
+    });
+    
+    setOutput(`
+        <h3>Notes App</h3>
+        <div>
+            <input type="text" id="noteTitle" placeholder="Note title">
+            <textarea id="noteContent" rows="4" style="width: 100%" placeholder="Note content"></textarea>
+            <button onclick="addNote()">Add Note</button>
+        </div>
+        <div id="notesList">
+            ${notesHTML}
+        </div>
+    `);
+}
+
+function addNote() {
+    const title = document.getElementById('noteTitle').value.trim();
+    const content = document.getElementById('noteContent').value.trim();
+    
+    if (!title || !content) return;
+    
+    let notes = [];
+    if (localStorage.getItem('notes')) {
+        try {
+            notes = JSON.parse(localStorage.getItem('notes'));
+        } catch (e) {
+            notes = [];
+        }
+    }
+    
+    notes.push({ title, content });
+    localStorage.setItem('notes', JSON.stringify(notes));
+    
+    showNotesApp(); // Refresh the notes display
+}
+
+function deleteNote(index) {
+    let notes = [];
+    if (localStorage.getItem('notes')) {
+        try {
+            notes = JSON.parse(localStorage.getItem('notes'));
+            notes.splice(index, 1);
+            localStorage.setItem('notes', JSON.stringify(notes));
+        } catch (e) {}
+    }
+    showNotesApp(); // Refresh
+}
+
+// 16. QR Code Generator
+function generateQRCode() {
+    setOutput(`
+        <h3>QR Code Generator</h3>
+        <p>Enter text to generate a simulated QR code:</p>
+        <input type="text" id="qrText" placeholder="Enter text or URL">
+        <button onclick="showQRCode()">Generate QR</button>
+        <div id="qrResult" style="margin-top: 20px;"></div>
+    `);
+}
+
+function showQRCode() {
+    const text = document.getElementById('qrText').value.trim();
+    if (!text) return;
+    
+    // Create a simulated QR code
+    document.getElementById('qrResult').innerHTML = `
+        <div style="background-color: #f0f0f0; padding: 20px; width: 200px;">
+            <div style="width: 150px; height: 150px; margin: 0 auto; background: repeating-conic-gradient(#000 0% 25%, #fff 0% 50%) 
+            50% / 20% 20%;">
+            </div>
+            <p style="text-align: center; margin-top: 10px;">QR Code for: ${text}</p>
+            <p style="text-align: center; font-size: 10px;">(This is a simulation)</p>
+        </div>
+    `;
+}
+
+// 17. Dice Roller
+function rollDice() {
+    setOutput(`
+        <h3>Dice Roller</h3>
+        <div>
+            <label>Number of dice: <input type="number" id="diceCount" min="1" max="10" value="2"></label>
+            <label>Sides per die: <input type="number" id="diceSides" min="2" max="100" value="6"></label>
+            <button onclick="throwDice()">Roll</button>
+        </div>
+        <div id="diceResult" style="margin-top: 20px;"></div>
+    `);
+}
+
+function throwDice() {
+    const count = parseInt(document.getElementById('diceCount').value);
+    const sides = parseInt(document.getElementById('diceSides').value);
+    
+    if (isNaN(count) || isNaN(sides) || count < 1 || sides < 2) {
+        return;
+    }
+    
+    let results = [];
+    let total = 0;
+    
+    for (let i = 0; i < count; i++) {
+        const roll = Math.floor(Math.random() * sides) + 1;
+        results.push(roll);
+        total += roll;
+    }
+    
+    const diceHTML = results.map(r => 
+        `<div style="display: inline-block; width: 50px; height: 50px; line-height: 50px; 
+        text-align: center; background-color: #f5f5f5; border-radius: 10px; 
+        margin: 5px; font-weight: bold; border: 1px solid #ddd;">${r}</div>`
+    ).join('');
+    
+    document.getElementById('diceResult').innerHTML = `
+        <div>${diceHTML}</div>
+        <p>Total: ${total}</p>
+    `;
+}
+
+// 18. Countdown Timer
+function startCountdown() {
+    setOutput(`
+        <h3>Countdown Timer</h3>
+        <div>
+            <input type="number" id="minutesInput" min="0" max="60" value="5" placeholder="Minutes">
+            <input type="number" id="secondsInput" min="0" max="59" value="0" placeholder="Seconds">
+            <button onclick="beginCountdown()">Start</button>
+            <button onclick="stopCountdown()">Stop</button>
+        </div>
+        <div id="timerDisplay" style="font-size: 2em; margin: 20px 0;">05:00</div>
+    `);
+    
+    updateTimerDisplay();
+}
+
+let countdownInterval;
+
+function beginCountdown() {
+    // Clear any existing timer
+    if (countdownInterval) clearInterval(countdownInterval);
+    
+    const minutes = parseInt(document.getElementById('minutesInput').value) || 0;
+    const seconds = parseInt(document.getElementById('secondsInput').value) || 0;
+    
+    if (minutes === 0 && seconds === 0) return;
+    
+    let totalSeconds = minutes * 60 + seconds;
+    
+    updateTimerDisplay(totalSeconds);
+    
+    countdownInterval = setInterval(() => {
+        totalSeconds--;
+        
+        if (totalSeconds < 0) {
+            clearInterval(countdownInterval);
+            document.getElementById('timerDisplay').textContent = "Time's up!";
+            return;
+        }
+        
+        updateTimerDisplay(totalSeconds);
+    }, 1000);
+}
+
+function stopCountdown() {
+    if (countdownInterval) clearInterval(countdownInterval);
+}
+
+function updateTimerDisplay(totalSeconds) {
+    if (totalSeconds === undefined) {
+        const minutes = parseInt(document.getElementById('minutesInput').value) || 0;
+        const seconds = parseInt(document.getElementById('secondsInput').value) || 0;
+        totalSeconds = minutes * 60 + seconds;
+    }
+    
+    const mins = Math.floor(totalSeconds / 60);
+    const secs = totalSeconds % 60;
+    
+    document.getElementById('timerDisplay').textContent = 
+        `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+}
+
+// 19. Color Picker
+function showColorPicker() {
+    setOutput(`
+        <h3>Color Picker</h3>
+        <input type="color" id="colorInput" value="#3498db">
+        <div>
+            <div id="colorPreview" style="width: 100px; height: 100px; margin: 10px 0; border: 1px solid #ddd;"></div>
+            <p id="colorValue"></p>
+        </div>
+    `);
+    
+    const colorInput = document.getElementById('colorInput');
+    colorInput.addEventListener('input', updateColorPreview);
+    updateColorPreview();
+}
+
+function updateColorPreview() {
+    const color = document.getElementById('colorInput').value;
+    document.getElementById('colorPreview').style.backgroundColor = color;
+    document.getElementById('colorValue').textContent = `Color value: ${color}`;
+}
+
+// 20. Text Encoder
+function encodeText() {
+    setOutput(`
+        <h3>Text Encoder/Decoder</h3>
+        <textarea id="textToEncode" rows="4" style="width: 100%" placeholder="Enter text to encode/decode"></textarea>
+        <div>
+            <button onclick="performEncoding('base64')">Base64 Encode</button>
+            <button onclick="performDecoding('base64')">Base64 Decode</button>
+            <button onclick="performEncoding('uri')">URI Encode</button>
+            <button onclick="performDecoding('uri')">URI Decode</button>
+        </div>
+        <div id="encodingResult" style="margin-top: 10px; padding: 10px; border: 1px solid #ddd;"></div>
+    `);
+}
+
+function performEncoding(type) {
+    const text = document.getElementById('textToEncode').value;
+    let result = '';
+    
+    if (type === 'base64') {
+        result = btoa(text);
+    } else if (type === 'uri') {
+        result = encodeURIComponent(text);
+    }
+    
+    document.getElementById('encodingResult').textContent = result;
+}
+
+function performDecoding(type) {
+    const text = document.getElementById('textToEncode').value;
+    let result = '';
+    
+    try {
+        if (type === 'base64') {
+            result = atob(text);
+        } else if (type === 'uri') {
+            result = decodeURIComponent(text);
+        }
+    } catch (e) {
+        result = 'Error decoding: Invalid input';
+    }
+    
+    document.getElementById('encodingResult').textContent = result;
+}
+
+// 21. Loan Calculator
+function calculateLoan() {
+    setOutput(`
+        <h3>Loan Calculator</h3>
+        <div>
+            <label>Loan Amount ($): <input type="number" id="loanAmount" value="10000" min="1"></label>
+        </div>
+        <div>
+            <label>Interest Rate (%): <input type="number" id="interestRate" value="5" min="0" max="100" step="0.1"></label>
+        </div>
+        <div>
+            <label>Loan Term (years): <input type="number" id="loanTerm" value="5" min="1" max="50"></label>
+        </div>
+        <button onclick="calculateLoanPayment()">Calculate</button>
+        <div id="loanResult"></div>
+    `);
+}
+
+function calculateLoanPayment() {
+    const principal = parseFloat(document.getElementById('loanAmount').value);
+    const interestRate = parseFloat(document.getElementById('interestRate').value) / 100 / 12; // Monthly
+    const termMonths = parseInt(document.getElementById('loanTerm').value) * 12;
+    
+    if (principal > 0 && interestRate > 0 && termMonths > 0) {
+        const x = Math.pow(1 + interestRate, termMonths);
+        const monthlyPayment = (principal * x * interestRate) / (x - 1);
+        
+        const totalPayment = monthlyPayment * termMonths;
+        const totalInterest = totalPayment - principal;
+        
+        document.getElementById('loanResult').innerHTML = `
+            <p>Monthly Payment: $${monthlyPayment.toFixed(2)}</p>
+            <p>Total Payment: $${totalPayment.toFixed(2)}</p>
+            <p>Total Interest: $${totalInterest.toFixed(2)}</p>
+        `;
+    }
+}
+
+// 22. Drawing Board
+function showDrawingBoard() {
+    setOutput(`
+        <h3>Simple Drawing Board</h3>
+        <canvas id="drawingCanvas" width="400" height="300" style="border: 1px solid #ddd; cursor: crosshair;"></canvas>
+        <div>
+            <button onclick="clearCanvas()">Clear</button>
+            <input type="color" id="brushColor" value="#000000">
+            <label>Brush Size: <input type="range" id="brushSize" min="1" max="50" value="5"></label>
+        </div>
+    `);
+    
+    initializeCanvas();
+}
+
+function initializeCanvas() {
+    const canvas = document.getElementById('drawingCanvas');
+    const ctx = canvas.getContext('2d');
+    let isDrawing = false;
+    
+    canvas.addEventListener('mousedown', startDrawing);
+    canvas.addEventListener('mousemove', draw);
+    canvas.addEventListener('mouseup', stopDrawing);
+    canvas.addEventListener('mouseout', stopDrawing);
+    
+    function startDrawing(e) {
+        isDrawing = true;
+        draw(e);
+    }
+    
+    function draw(e) {
+        if (!isDrawing) return;
+        
+        ctx.lineWidth = document.getElementById('brushSize').value;
+        ctx.lineCap = 'round';
+        ctx.strokeStyle = document.getElementById('brushColor').value;
+        
+        const rect = canvas.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        ctx.lineTo(x, y);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+    }
+    
+    function stopDrawing() {
+        isDrawing = false;
+        ctx.beginPath();
+    }
+}
+
+function clearCanvas() {
+    const canvas = document.getElementById('drawingCanvas');
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+}
+
+// 23. Tip Calculator
+function calculateTip() {
+    setOutput(`
+        <h3>Tip Calculator</h3>
+        <div>
+            <label>Bill Amount: $<input type="number" id="billAmount" min="0" step="0.01" value="50.00"></label>
+        </div>
+        <div>
+            <label>Tip Percentage: <input type="number" id="tipPercentage" min="0" max="100" value="15">%</label>
+        </div>
+        <div>
+            <label>Number of People: <input type="number" id="peopleCount" min="1" value="2"></label>
+        </div>
+        <button onclick="calculateTipAmount()">Calculate</button>
+        <div id="tipResult"></div>
+    `);
+}
+
+function calculateTipAmount() {
+    const bill = parseFloat(document.getElementById('billAmount').value);
+    const tipPercent = parseFloat(document.getElementById('tipPercentage').value);
+    const people = parseInt(document.getElementById('peopleCount').value);
+    
+    if (isNaN(bill) || isNaN(tipPercent) || isNaN(people) || bill < 0 || tipPercent < 0 || people < 1) {
+        return;
+    }
+    
+    const tipAmount = bill * (tipPercent / 100);
+    const totalAmount = bill + tipAmount;
+    const perPerson = totalAmount / people;
+    
+    document.getElementById('tipResult').innerHTML = `
+        <p>Tip Amount: $${tipAmount.toFixed(2)}</p>
+        <p>Total Bill: $${totalAmount.toFixed(2)}</p>
+        <p>Amount Per Person: $${perPerson.toFixed(2)}</p>
+    `;
+}
+
+// 24. Age Calculator
+function calculateAge() {
+    setOutput(`
+        <h3>Age Calculator</h3>
+        <div>
+            <label>Birth Date: <input type="date" id="birthDate"></label>
+        </div>
+        <button onclick="computeAge()">Calculate Age</button>
+        <div id="ageResult"></div>
+    `);
+    
+    // Set a default date (20 years ago)
+    const defaultDate = new Date();
+    defaultDate.setFullYear(defaultDate.getFullYear() - 20);
+    document.getElementById('birthDate').valueAsDate = defaultDate;
+}
+
+function computeAge() {
+    const birthDate = new Date(document.getElementById('birthDate').value);
+    const today = new Date();
+    
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+    
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+    }
+    
+    // Calculate days, months, years
+    let years = age;
+    
+    // Create a date with same day/month as birth but current year
+    const thisYearBirthday = new Date(today.getFullYear(), birthDate.getMonth(), birthDate.getDate());
+    
+    // Check if birthday this year has passed or not
+    const birthdayHasPassed = today >= thisYearBirthday;
+    
+    // Calculate next birthday
+    const nextBirthdayYear = birthdayHasPassed ? today.getFullYear() + 1 : today.getFullYear();
+    const nextBirthday = new Date(nextBirthdayYear, birthDate.getMonth(), birthDate.getDate());
+    
+    // Calculate days until next birthday
+    const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
+    const daysUntilNextBirthday = Math.round((nextBirthday.getTime() - today.getTime()) / oneDay);
+    
+    document.getElementById('ageResult').innerHTML = `
+        <p>Your Age: ${years} years</p>
+        <p>Days until next birthday: ${daysUntilNextBirthday} days</p>
+    `;
+}
+
+// 25. Word Scramble
+function scrambleWord() {
+    const words = [
+        "javascript", "computer", "algorithm", "developer", "programming",
+        "keyboard", "monitor", "network", "database", "security"
+    ];
+    
+    setOutput(`
+        <h3>Word Scramble Game</h3>
+        <p>Unscramble the word:</p>
+        <div id="scrambledWord" style="font-size: 1.5em; letter-spacing: 3px; margin: 20px 0;"></div>
+        <div>
+            <input type="text" id="userGuess" placeholder="Your answer">
+            <button onclick="checkWordGuess()">Check</button>
+            <button onclick="newScrambledWord()">New Word</button>
+        </div>
+        <p id="wordResult"></p>
+    `);
+    
+    // Store original word in a data attribute
+    const randomIndex = Math.floor(Math.random() * words.length);
+    const originalWord = words[randomIndex];
+    const scrambled = originalWord.split('').sort(() => 0.5 - Math.random()).join('');
+    
+    const wordDiv = document.getElementById('scrambledWord');
+    wordDiv.textContent = scrambled;
+    wordDiv.dataset.original = originalWord;
+}
+
+function checkWordGuess() {
+    const userGuess = document.getElementById('userGuess').value.toLowerCase().trim();
+    const originalWord = document.getElementById('scrambledWord').dataset.original;
+    
+    if (userGuess === originalWord) {
+        document.getElementById('wordResult').innerHTML = 
+            '<span style="color: green">Correct! Well done!</span>';
+    } else {
+        document.getElementById('wordResult').innerHTML = 
+            '<span style="color: red">Not correct. Try again!</span>';
+    }
+}
+
+function newScrambledWord() {
+    scrambleWord();
+    document.getElementById('userGuess').value = '';
+    document.getElementById('wordResult').textContent = '';
+}
+
+// 26. URL Shortener
+function shortenURL() {
+    setOutput(`
+        <h3>URL Shortener</h3>
+        <p>Enter a URL to create a simulated short link:</p>
+        <input type="url" id="longUrl" placeholder="https://example.com/very/long/url..." style="width: 80%">
+        <button onclick="createShortUrl()">Shorten</button>
+        <div id="shortUrlResult"></div>
+    `);
+}
+
+function createShortUrl() {
+    const url = document.getElementById('longUrl').value.trim();
+    if (!url || !url.startsWith('http')) {
+        document.getElementById('shortUrlResult').innerHTML = 
+            '<p style="color: red">Please enter a valid URL starting with http:// or https://</p>';
+        return;
+    }
+    
+    // Generate random string for short URL
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let shortCode = '';
+    for (let i = 0; i < 6; i++) {
+        shortCode += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    
+    const shortUrl = `https://short.url/${shortCode}`;
+    
+    document.getElementById('shortUrlResult').innerHTML = `
+        <p>Original URL: ${url}</p>
+        <p>Shortened URL: <a href="#" onclick="alert('This is a simulated URL shortener'); return false;">${shortUrl}</a></p>
+        <p><small>(This is a simulation. The link doesn't actually work.)</small></p>
+    `;
+}
+
+// 27. Calorie Counter
+function countCalories() {
+    setOutput(`
+        <h3>Calorie Counter</h3>
+        <div>
+            <input type="text" id="foodItem" placeholder="Food item name">
+            <input type="number" id="calorieAmount" placeholder="Calories" min="0">
+            <button onclick="addFoodItem()">Add</button>
+        </div>
+        <ul id="calorieList"></ul>
+        <p>Total Calories: <span id="totalCalories">0</span></p>
+        <button onclick="clearCalorieList()">Clear All</button>
+    `);
+}
+
+function addFoodItem() {
+    const food = document.getElementById('foodItem').value.trim();
+    const calories = parseInt(document.getElementById('calorieAmount').value);
+    
+    if (!food || isNaN(calories) || calories < 0) return;
+    
+    const list = document.getElementById('calorieList');
+    const li = document.createElement('li');
+    li.innerHTML = `${food}: ${calories} calories <button onclick="this.parentElement.remove(); updateCalorieTotal()">Remove</button>`;
+    li.dataset.calories = calories;
+    list.appendChild(li);
+    
+    document.getElementById('foodItem').value = '';
+    document.getElementById('calorieAmount').value = '';
+    
+    updateCalorieTotal();
+}
+
+function updateCalorieTotal() {
+    const items = document.querySelectorAll('#calorieList li');
+    let total = 0;
+    
+    items.forEach(item => {
+        total += parseInt(item.dataset.calories);
+    });
+    
+    document.getElementById('totalCalories').textContent = total;
+}
+
+function clearCalorieList() {
+    document.getElementById('calorieList').innerHTML = '';
+    document.getElementById('totalCalories').textContent = '0';
+}
+
+// 28. Morse Code Converter
+function convertToMorse() {
+    setOutput(`
+        <h3>Morse Code Converter</h3>
+        <textarea id="textForMorse" rows="3" style="width: 100%" placeholder="Enter text to convert to Morse code"></textarea>
+        <button onclick="textToMorse()">Text to Morse</button>
+        <button onclick="morseToText()">Morse to Text</button>
+        <div id="morseResult" style="margin-top: 10px; padding: 10px; border: 1px solid #ddd; min-height: 50px;"></div>
+    `);
+}
+
+// Continuing from function convertToMorse()
+
+function textToMorse() {
+    const text = document.getElementById('textForMorse').value.trim().toUpperCase();
+    if (!text) return;
+    
+    const morseMap = {
+        'A': '.-', 'B': '-...', 'C': '-.-.', 'D': '-..', 'E': '.', 'F': '..-.', 
+        'G': '--.', 'H': '....', 'I': '..', 'J': '.---', 'K': '-.-', 'L': '.-..', 
+        'M': '--', 'N': '-.', 'O': '---', 'P': '.--.', 'Q': '--.-', 'R': '.-.', 
+        'S': '...', 'T': '-', 'U': '..-', 'V': '...-', 'W': '.--', 'X': '-..-', 
+        'Y': '-.--', 'Z': '--..', ' ': '/', '0': '-----', '1': '.----', '2': '..---', 
+        '3': '...--', '4': '....-', '5': '.....', '6': '-....', '7': '--...', 
+        '8': '---..', '9': '----.'
+    };
+    
+    let morse = '';
+    for (let i = 0; i < text.length; i++) {
+        const char = text[i];
+        morse += morseMap[char] ? morseMap[char] + ' ' : char + ' ';
+    }
+    
+    document.getElementById('morseResult').textContent = morse.trim();
+}
+
+function morseToText() {
+    const morse = document.getElementById('textForMorse').value.trim();
+    if (!morse) return;
+    
+    const textMap = {
+        '.-': 'A', '-...': 'B', '-.-.': 'C', '-..': 'D', '.': 'E', '..-.': 'F', 
+        '--.': 'G', '....': 'H', '..': 'I', '.---': 'J', '-.-': 'K', '.-..': 'L', 
+        '--': 'M', '-.': 'N', '---': 'O', '.--.': 'P', '--.-': 'Q', '.-.': 'R', 
+        '...': 'S', '-': 'T', '..-': 'U', '...-': 'V', '.--': 'W', '-..-': 'X', 
+        '-.--': 'Y', '--..': 'Z', '/': ' ', '-----': '0', '.----': '1', '..---': '2', 
+        '...--': '3', '....-': '4', '.....': '5', '-....': '6', '--...': '7', 
+        '---..': '8', '----.': '9'
+    };
+    
+    const morseChars = morse.split(' ');
+    let text = '';
+    
+    morseChars.forEach(char => {
+        text += textMap[char] || char;
+    });
+    
+    document.getElementById('morseResult').textContent = text;
+}
+
+// 29. Binary Converter
+function convertToBinary() {
+    setOutput(`
+        <h3>Binary Converter</h3>
+        <input type="text" id="binaryInput" placeholder="Enter a number or text">
+        <div>
+            <button onclick="textToBinary()">Text to Binary</button>
+            <button onclick="numberToBinary()">Number to Binary</button>
+            <button onclick="binaryToText()">Binary to Text</button>
+            <button onclick="binaryToNumber()">Binary to Number</button>
+        </div>
+        <div id="binaryResult" style="margin-top: 10px; padding: 10px; border: 1px solid #ddd;"></div>
+    `);
+}
+
+function textToBinary() {
+    const text = document.getElementById('binaryInput').value;
+    let binary = '';
+    
+    for (let i = 0; i < text.length; i++) {
+        const bin = text[i].charCodeAt(0).toString(2);
+        binary += '0'.repeat(8 - bin.length) + bin + ' ';
+    }
+    
+    document.getElementById('binaryResult').textContent = binary.trim();
+}
+
+function numberToBinary() {
+    const num = parseInt(document.getElementById('binaryInput').value);
+    if (isNaN(num)) {
+        document.getElementById('binaryResult').textContent = 'Please enter a valid number';
+        return;
+    }
+    
+    document.getElementById('binaryResult').textContent = num.toString(2);
+}
+
+function binaryToText() {
+    const binary = document.getElementById('binaryInput').value.trim().split(' ');
+    let text = '';
+    
+    binary.forEach(bin => {
+        text += String.fromCharCode(parseInt(bin, 2));
+    });
+    
+    document.getElementById('binaryResult').textContent = text;
+}
+
+function binaryToNumber() {
+    const binary = document.getElementById('binaryInput').value.trim();
+    try {
+        const num = parseInt(binary, 2);
+        document.getElementById('binaryResult').textContent = num;
+    } catch (e) {
+        document.getElementById('binaryResult').textContent = 'Invalid binary input';
+    }
+}
+
+// 30. Speech to Text (simulated)
+function speechToText() {
+    setOutput(`
+        <h3>Speech to Text</h3>
+        <p>This is a simulation of speech recognition.</p>
+        <button id="startListening">Start Listening</button>
+        <div id="speechStatus">Click the button to start</div>
+        <textarea id="speechResult" rows="5" style="width: 100%; margin-top: 10px;" readonly></textarea>
+    `);
+    
+    document.getElementById('startListening').addEventListener('click', simulateSpeechRecognition);
+}
+
+function simulateSpeechRecognition() {
+    const status = document.getElementById('speechStatus');
+    const result = document.getElementById('speechResult');
+    const button = document.getElementById('startListening');
+    
+    button.disabled = true;
+    status.textContent = 'Listening...';
+    
+    // Simulate processing time
+    setTimeout(() => {
+        status.textContent = 'Processing...';
+        
+        // Simulated recognized phrases
+        const phrases = [
+            "Hello world, this is a simulated speech recognition.",
+            "The quick brown fox jumps over the lazy dog.",
+            "Thank you for testing this tool dashboard.",
+            "This is just a demonstration of what speech recognition might look like."
+        ];
+        
+        const randomPhrase = phrases[Math.floor(Math.random() * phrases.length)];
+        
+        setTimeout(() => {
+            result.value = randomPhrase;
+            status.textContent = 'Done! Click again to try another phrase.';
+            button.disabled = false;
+        }, 1500);
+    }, 2000);
+}
+
+// 31. Text to Speech (simulated)
+function textToSpeech() {
+    setOutput(`
+        <h3>Text to Speech</h3>
+        <textarea id="textToSpeak" rows="4" style="width: 100%" placeholder="Enter text to speak..."></textarea>
+        <div>
+            <button onclick="simulateTextToSpeech()">Speak</button>
+            <select id="voiceSelect">
+                <option value="female">Female Voice</option>
+                <option value="male">Male Voice</option>
+            </select>
+            <label>Speed: <input type="range" id="speechSpeed" min="0.5" max="2" step="0.1" value="1"></label>
+        </div>
+        <div id="speakingStatus"></div>
+    `);
+}
+
+function simulateTextToSpeech() {
+    const text = document.getElementById('textToSpeak').value.trim();
+    if (!text) return;
+    
+    const voice = document.getElementById('voiceSelect').value;
+    const speed = document.getElementById('speechSpeed').value;
+    const status = document.getElementById('speakingStatus');
+    
+    status.innerHTML = `
+        <p>Speaking with ${voice} voice at ${speed}x speed...</p>
+        <div style="width: 100%; height: 20px; background-color: #f0f0f0; margin-top: 10px;">
+            <div id="speakProgress" style="width: 0%; height: 100%; background-color: #3498db;"></div>
+        </div>
+    `;
+    
+    // Simulate speaking progress
+    let progress = 0;
+    const interval = setInterval(() => {
+        progress += 5;
+        document.getElementById('speakProgress').style.width = `${progress}%`;
+        
+        if (progress >= 100) {
+            clearInterval(interval);
+            status.innerHTML = '<p>Finished speaking.</p>';
+        }
+    }, 100);
+}
+
+// 32. Pomodoro Timer
+function startPomodoro() {
+    setOutput(`
+        <h3>Pomodoro Timer</h3>
+        <div id="pomodoroTimer" style="font-size: 2em; margin: 20px 0;">25:00</div>
+        <div>
+            <button id="startPomodoro">Start</button>
+            <button id="resetPomodoro">Reset</button>
+        </div>
+        <div>
+            <label>Work Minutes: <input type="number" id="workMinutes" min="1" max="60" value="25"></label>
+            <label>Break Minutes: <input type="number" id="breakMinutes" min="1" max="30" value="5"></label>
+        </div>
+        <div id="pomodoroStatus">Ready to start</div>
+    `);
+    
+    document.getElementById('startPomodoro').addEventListener('click', startPomodoroTimer);
+    document.getElementById('resetPomodoro').addEventListener('click', resetPomodoroTimer);
+}
+
+let pomodoroInterval;
+let isWorkSession = true;
+
+function startPomodoroTimer() {
+    // Clear existing timer
+    if (pomodoroInterval) clearInterval(pomodoroInterval);
+    
+    const workMinutes = parseInt(document.getElementById('workMinutes').value) || 25;
+    const breakMinutes = parseInt(document.getElementById('breakMinutes').value) || 5;
+    
+    const startButton = document.getElementById('startPomodoro');
+    startButton.textContent = "Pause";
+    startButton.onclick = pausePomodoroTimer;
+    
+    isWorkSession = true;
+    document.getElementById('pomodoroStatus').textContent = "Working session";
+    
+    let totalSeconds = workMinutes * 60;
+    updatePomodoroDisplay(totalSeconds);
+    
+    pomodoroInterval = setInterval(() => {
+        totalSeconds--;
+        
+        if (totalSeconds < 0) {
+            clearInterval(pomodoroInterval);
+            
+            // Switch between work and break
+            isWorkSession = !isWorkSession;
+            
+            if (isWorkSession) {
+                document.getElementById('pomodoroStatus').textContent = "Working session";
+                totalSeconds = workMinutes * 60;
+            } else {
+                document.getElementById('pomodoroStatus').textContent = "Break time!";
+                totalSeconds = breakMinutes * 60;
+            }
+            
+            updatePomodoroDisplay(totalSeconds);
+            startPomodoroTimer(); // Auto start the next session
+            return;
+        }
+        
+        updatePomodoroDisplay(totalSeconds);
+    }, 1000);
+}
+
+function pausePomodoroTimer() {
+    clearInterval(pomodoroInterval);
+    pomodoroInterval = null;
+    
+    const startButton = document.getElementById('startPomodoro');
+    startButton.textContent = "Resume";
+    startButton.onclick = startPomodoroTimer;
+}
+
+function resetPomodoroTimer() {
+    clearInterval(pomodoroInterval);
+    pomodoroInterval = null;
+    
+    const workMinutes = parseInt(document.getElementById('workMinutes').value) || 25;
+    updatePomodoroDisplay(workMinutes * 60);
+    
+    document.getElementById('startPomodoro').textContent = "Start";
+    document.getElementById('startPomodoro').onclick = startPomodoroTimer;
+    document.getElementById('pomodoroStatus').textContent = "Ready to start";
+    isWorkSession = true;
+}
+
+function updatePomodoroDisplay(totalSeconds) {
+    const mins = Math.floor(totalSeconds / 60);
+    const secs = totalSeconds % 60;
+    
+    document.getElementById('pomodoroTimer').textContent = 
+        `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+}
+
+// 33. Memory Game
+function playMemoryGame() {
+    const symbols = ['🍎', '🍌', '🍇', '🍊', '🍒', '🍓', '🍑', '🍋'];
+    // Double the symbols to create pairs
+    const gameSymbols = [...symbols, ...symbols];
+    
+    // Shuffle the array
+    gameSymbols.sort(() => 0.5 - Math.random());
+    
+    let cardsHTML = '';
+    gameSymbols.forEach((symbol, index) => {
+        cardsHTML += `
+            <div class="memory-card" data-index="${index}" data-symbol="${symbol}" onclick="flipCard(this)">
+                <div class="memory-card-inner">
+                    <div class="memory-card-front">?</div>
+                    <div class="memory-card-back">${symbol}</div>
+                </div>
+            </div>
+        `;
+    });
+    
+    setOutput(`
+        <h3>Memory Game</h3>
+        <p>Flip cards to find matching pairs!</p>
+        <div id="gameScore">Moves: 0 | Matches: 0</div>
+        <div id="memoryBoard" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 20px 0;">
+            ${cardsHTML}
+        </div>
+        <button onclick="resetMemoryGame()">New Game</button>
+        <style>
+            .memory-card {
+                height: 60px;
+                perspective: 600px;
+                cursor: pointer;
+            }
+            .memory-card-inner {
+                width: 100%;
+                height: 100%;
+                transform-style: preserve-3d;
+                transition: transform 0.5s;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .memory-card-front, .memory-card-back {
+                width: 100%;
+                height: 100%;
+                position: absolute;
+                backface-visibility: hidden;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 1.5em;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+            }
+            .memory-card-back {
+                transform: rotateY(180deg);
+            }
+            .flipped .memory-card-inner {
+                transform: rotateY(180deg);
+            }
+        </style>
+    `);
+}
+
+let flippedCards = [];
+let matchedPairs = 0;
+let moves = 0;
+
+function flipCard(card) {
+    // Prevent flipping already matched or already flipped cards
+    if (card.classList.contains('flipped') || card.classList.contains('matched')) {
+        return;
+    }
+    
+    // Prevent flipping a third card while two are already flipped
+    if (flippedCards.length >= 2) {
+        return;
+    }
+    
+    // Flip the card
+    card.classList.add('flipped');
+    flippedCards.push(card);
+    
+    // Check if we have a pair
+    if (flippedCards.length === 2) {
+        moves++;
+        updateMemoryGameScore();
+        
+        const card1 = flippedCards[0];
+        const card2 = flippedCards[1];
+        
+        if (card1.dataset.symbol === card2.dataset.symbol) {
+            // Match found
+            matchedPairs++;
+            updateMemoryGameScore();
+            card1.classList.add('matched');
+            card2.classList.add('matched');
+            flippedCards = [];
+            
+            // Check if all pairs are found
+            if (matchedPairs === 8) { // 8 pairs in our game
+                setTimeout(() => {
+                    alert("Congratulations! You found all pairs!");
+                }, 500);
+            }
+        } else {
+            // No match, flip back after delay
+            setTimeout(() => {
+                card1.classList.remove('flipped');
+                card2.classList.remove('flipped');
+                flippedCards = [];
+            }, 1000);
+        }
+    }
+}
+
+function updateMemoryGameScore() {
+    document.getElementById('gameScore').textContent = `Moves: ${moves} | Matches: ${matchedPairs}`;
+}
+
+function resetMemoryGame() {
+    flippedCards = [];
+    matchedPairs = 0;
+    moves = 0;
+    playMemoryGame();
+}
+
+// 34. Gradient Generator
+function generateGradient() {
+    setOutput(`
+        <h3>Gradient Generator</h3>
+        <div>
+            <label>Color 1: <input type="color" id="gradientColor1" value="#3498db"></label>
+            <label>Color 2: <input type="color" id="gradientColor2" value="#e74c3c"></label>
+        </div>
+        <div>
+            <label>Direction: 
+                <select id="gradientDirection">
+                    <option value="to right">Horizontal</option>
+                    <option value="to bottom">Vertical</option>
+                    <option value="to bottom right">Diagonal</option>
+                    <option value="circle">Radial</option>
+                </select>
+            </label>
+        </div>
+        <div id="gradientPreview" style="height: 100px; margin: 15px 0; border: 1px solid #ddd;"></div>
+        <div id="gradientCode"></div>
+        <button onclick="updateGradient()">Update Gradient</button>
+    `);
+    
+    // Initialize
+    document.getElementById('gradientColor1').addEventListener('input', updateGradient);
+    document.getElementById('gradientColor2').addEventListener('input', updateGradient);
+    document.getElementById('gradientDirection').addEventListener('change', updateGradient);
+    updateGradient();
+}
+
+function updateGradient() {
+    const color1 = document.getElementById('gradientColor1').value;
+    const color2 = document.getElementById('gradientColor2').value;
+    const direction = document.getElementById('gradientDirection').value;
+    
+    let gradientCSS;
+    if (direction === 'circle') {
+        gradientCSS = `radial-gradient(circle, ${color1}, ${color2})`;
+    } else {
+        gradientCSS = `linear-gradient(${direction}, ${color1}, ${color2})`;
+    }
+    
+    document.getElementById('gradientPreview').style.background = gradientCSS;
+    document.getElementById('gradientCode').innerHTML = `
+        <p>CSS Code:</p>
+        <code>background: ${gradientCSS};</code>
+    `;
+}
+
+// 35. Math Quiz
+function startMathQuiz() {
+    setOutput(`
+        <h3>Math Quiz</h3>
+        <div id="quizQuestion" style="font-size: 1.5em; margin: 15px 0;"></div>
+        <input type="number" id="quizAnswer" placeholder="Your answer">
+        <button onclick="checkMathAnswer()">Submit</button>
+        <div id="quizFeedback"></div>
+        <div id="quizScore">Score: 0</div>
+        <button onclick="nextMathQuestion()">Next Question</button>
+    `);
+    
+    // Initialize quiz
+    window.mathQuizScore = 0;
+    nextMathQuestion();
+}
+
+function nextMathQuestion() {
+    // Clear previous feedback and answer
+    document.getElementById('quizFeedback').textContent = '';
+    document.getElementById('quizAnswer').value = '';
+    
+    // Generate random numbers
+    const num1 = Math.floor(Math.random() * 20) + 1;
+    const num2 = Math.floor(Math.random() * 20) + 1;
+    
+    // Choose random operation
+    const operations = ['+', '-', '*'];
+    const operation = operations[Math.floor(Math.random() * operations.length)];
+    
+    let question;
+    let answer;
+    
+    if (operation === '+') {
+        question = `${num1} + ${num2} = ?`;
+        answer = num1 + num2;
+    } else if (operation === '-') {
+        // Make sure subtraction results in a positive number
+        if (num1 >= num2) {
+            question = `${num1} - ${num2} = ?`;
+            answer = num1 - num2;
+        } else {
+            question = `${num2} - ${num1} = ?`;  
+            answer = num2 - num1;
+        }
+    } else if (operation === '*') {
+        question = `${num1} × ${num2} = ?`;
+        answer = num1 * num2;
+    }
+    
+    document.getElementById('quizQuestion').textContent = question;
+    
+    // Store the answer in a data attribute
+    document.getElementById('quizQuestion').dataset.answer = answer;
+}
+
+function checkMathAnswer() {
+    const userAnswer = parseInt(document.getElementById('quizAnswer').value);
+    const correctAnswer = parseInt(document.getElementById('quizQuestion').dataset.answer);
+    const feedback = document.getElementById('quizFeedback');
+    
+    if (userAnswer === correctAnswer) {
+        feedback.innerHTML = '<span style="color: green">Correct!</span>';
+        window.mathQuizScore++;
+        document.getElementById('quizScore').textContent = `Score: ${window.mathQuizScore}`;
+    } else {
+        feedback.innerHTML = `<span style="color: red">Wrong. The correct answer is ${correctAnswer}.</span>`;
+    }
+}
+
+// 36. Character Counter
+function countCharacters() {
+    setOutput(`
+        <h3>Character Counter</h3>
+        <textarea id="charCountText" rows="5" style="width: 100%" placeholder="Type or paste text here..."></textarea>
+        <div id="charCountResult">
+            <p>Characters: 0</p>
+            <p>Words: 0</p>
+            <p>Lines: 0</p>
+            <p>Characters (no spaces): 0</p>
+        </div>
+    `);
+    
+    document.getElementById('charCountText').addEventListener('input', updateCharCount);
+}
+
+function updateCharCount() {
+    const text = document.getElementById('charCountText').value;
+    const charCount = text.length;
+    const wordCount = text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
+    const lineCount = text === '' ? 0 : text.split(/\r\n|\r|\n/).length;
+    const noSpaceCount = text.replace(/\s+/g, '').length;
+    
+    document.getElementById('charCountResult').innerHTML = `
+        <p>Characters: ${charCount}</p>
+        <p>Words: ${wordCount}</p>
+        <p>Lines: ${lineCount}</p>
+        <p>Characters (no spaces): ${noSpaceCount}</p>
+    `;
+}
+
+// 37. Expense Tracker
+function trackExpenses() {
+    // Check for saved expenses
+    let expenses = [];
+    if (localStorage.getItem('expenses')) {
+        try {
+            expenses = JSON.parse(localStorage.getItem('expenses'));
+        } catch (e) {
+            expenses = [];
+        }
+    }
+    
+    // Create the expense entries HTML
+    let expensesHTML = '';
+    let total = 0;
+    
+    expenses.forEach((expense, index) => {
+        expensesHTML += `
+            <tr>
+                <td>${expense.description}</td>
+                <td>$${parseFloat(expense.amount).toFixed(2)}</td>
+                <td>${expense.category}</td>
+                <td>${expense.date}</td>
+                <td><button onclick="deleteExpense(${index})">Delete</button></td>
+            </tr>
+        `;
+        total += parseFloat(expense.amount);
+    });
+    
+    setOutput(`
+        <h3>Expense Tracker</h3>
+        <div>
+            <input type="text" id="expenseDesc" placeholder="Description">
+            <input type="number" id="expenseAmount" placeholder="Amount" step="0.01" min="0">
+            <select id="expenseCategory">
+                <option value="Food">Food</option>
+                <option value="Transport">Transport</option>
+                <option value="Entertainment">Entertainment</option>
+                <option value="Housing">Housing</option>
+                <option value="Utilities">Utilities</option>
+                <option value="Other">Other</option>
+            </select>
+            <input type="date" id="expenseDate">
+            <button onclick="addExpense()">Add Expense</button>
+        </div>
+        <table style="width: 100%; margin-top: 20px; border-collapse: collapse;">
+            <thead>
+                <tr>
+                    <th>Description</th>
+                    <th>Amount</th>
+                    <th>Category</th>
+                    <th>Date</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="expensesList">
+                ${expensesHTML}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="1"><strong>Total</strong></td>
+                    <td colspan="4"><strong>$${total.toFixed(2)}</strong></td>
+                </tr>
+            </tfoot>
+        </table>
+    `);
+    
+    // Set current date as default
+    const today = new Date();
+    const dateString = today.toISOString().split('T')[0];
+    document.getElementById('expenseDate').value = dateString;
+}
+
+function addExpense() {
+    const description = document.getElementById('expenseDesc').value.trim();
+    const amount = parseFloat(document.getElementById('expenseAmount').value);
+    const category = document.getElementById('expenseCategory').value;
+    const date = document.getElementById('expenseDate').value;
+    
+    if (!description || isNaN(amount) || amount <= 0 || !date) {
+        alert('Please fill all fields with valid values.');
+        return;
+    }
+    
+    // Get existing expenses
+    let expenses = [];
+    if (localStorage.getItem('expenses')) {
+        try {
+            expenses = JSON.parse(localStorage.getItem('expenses'));
+        } catch (e) {
+            expenses = [];
+        }
+    }
+    
+    // Add new expense
+    expenses.push({ description, amount, category, date });
+    
+    // Save to localStorage
+    localStorage.setItem('expenses', JSON.stringify(expenses));
+    
+    // Refresh the display
+    trackExpenses();
+}
+
+function deleteExpense(index) {
+    let expenses = [];
+    if (localStorage.getItem('expenses')) {
+        try {
+            expenses = JSON.parse(localStorage.getItem('expenses'));
+            expenses.splice(index, 1);
+            localStorage.setItem('expenses', JSON.stringify(expenses));
+        } catch (e) {}
+    }
+    trackExpenses();
+}
+
+// 38. Percentage Calculator
+function calculatePercentage() {
+    setOutput(`
+        <h3>Percentage Calculator</h3>
+        <div style="margin: 10px 0;">
+            <p>Calculate percentage:</p>
+            <input type="number" id="percentValue" placeholder="Value" step="0.01">
+            <span>is what % of</span>
+            <input type="number" id="totalValue" placeholder="Total" step="0.01">
+            <button onclick="calcPercent()">Calculate</button>
+            <div id="percentResult1"></div>
+        </div>
+        <div style="margin: 10px 0;">
+            <p>Calculate value from percentage:</p>
+            <input type="number" id="percentPct" placeholder="%" step="0.01">
+            <span>% of</span>
+            <input type="number" id="percentTotal" placeholder="Total" step="0.01">
+            <button onclick="calcValue()">Calculate</button>
+            <div id="percentResult2"></div>
+        </div>
+        <div style="margin: 10px 0;">
+            <p>Calculate increase/decrease:</p>
+            <input type="number" id="originalValue" placeholder="Original value" step="0.01">
+            <span>to</span>
+            <input type="number" id="newValue" placeholder="New value" step="0.01">
+            <button onclick="calcChange()">Calculate</button>
+            <div id="percentResult3"></div>
+        </div>
+    `);
+}
+
+function calcPercent() {
+    const value = parseFloat(document.getElementById('percentValue').value);
+    const total = parseFloat(document.getElementById('totalValue').value);
+    
+    if (isNaN(value) || isNaN(total) || total === 0) {
+        document.getElementById('percentResult1').textContent = 'Please enter valid numbers.';
+        return;
+    }
+    
+    const percent = (value / total) * 100;
+    document.getElementById('percentResult1').textContent = `Result: ${value} is ${percent.toFixed(2)}% of ${total}`;
+}
+
+function calcValue() {
+    const percent = parseFloat(document.getElementById('percentPct').value);
+    const total = parseFloat(document.getElementById('percentTotal').value);
+    
+    if (isNaN(percent) || isNaN(total)) {
+        document.getElementById('percentResult2').textContent = 'Please enter valid numbers.';
+        return;
+    }
+    
+    const value = (percent / 100) * total;
+    document.getElementById('percentResult2').textContent = `Result: ${percent}% of ${total} is ${value.toFixed(2)}`;
+}
+
+function calcChange() {
+    const original = parseFloat(document.getElementById('originalValue').value);
+    const newVal = parseFloat(document.getElementById('newValue').value);
+    
+    if (isNaN(original) || isNaN(newVal) || original === 0) {
+        document.getElementById('percentResult3').textContent = 'Please enter valid numbers.';
+        return;
+    }
+    
+    const change = ((newVal - original) / original) * 100;
+    const direction = change >= 0 ? 'increase' : 'decrease';
+    
+    document.getElementById('percentResult3').textContent = 
+        `Result: ${Math.abs(change).toFixed(2)}% ${direction} from ${original} to ${newVal}`;
+}
+
+// 39. Stopwatch
+function startStopwatch() {
+    setOutput(`
+        <h3>Stopwatch</h3>
+        <div id="stopwatchDisplay" style="font-size: 2em; margin: 20px 0;">00:00:00</div>
+        <div>
+            <button id="startStopwatch">Start</button>
+            <button id="pauseStopwatch" disabled>Pause</button>
+            <button id="resetStopwatch">Reset</button>
+        </div>
+        <div id="lapTimes"></div>
+        <button id="lapButton" disabled>Lap</button>
+    `);
+    
+    document.getElementById('startStopwatch').addEventListener('click', beginStopwatch);
+    document.getElementById('pauseStopwatch').addEventListener('click', pauseStopwatch);
+    document.getElementById('resetStopwatch').addEventListener('click', resetStopwatch);
+    document.getElementById('lapButton').addEventListener('click', recordLap);
+}
+// Stopwatch variables
+let stopwatchTime = 0;
+let stopwatchRunning = false;
+let stopwatchInterval;
+let lapCount = 0;
+
+function beginStopwatch() {
+    if (!stopwatchRunning) {
+        stopwatchRunning = true;
+        const startTime = Date.now() - stopwatchTime;
+        stopwatchInterval = setInterval(() => {
+            stopwatchTime = Date.now() - startTime;
+            updateStopwatchDisplay();
+        }, 10);
+        
+        document.getElementById('startStopwatch').disabled = true;
+        document.getElementById('pauseStopwatch').disabled = false;
+        document.getElementById('lapButton').disabled = false;
+    }
+}
+
+function pauseStopwatch() {
+    if (stopwatchRunning) {
+        stopwatchRunning = false;
+        clearInterval(stopwatchInterval);
+        document.getElementById('startStopwatch').disabled = false;
+        document.getElementById('pauseStopwatch').disabled = true;
+    }
+}
+
+function resetStopwatch() {
+    stopwatchRunning = false;
+    clearInterval(stopwatchInterval);
+    stopwatchTime = 0;
+    lapCount = 0;
+    
+    updateStopwatchDisplay();
+    document.getElementById('startStopwatch').disabled = false;
+    document.getElementById('pauseStopwatch').disabled = true;
+    document.getElementById('lapButton').disabled = true;
+    document.getElementById('lapTimes').innerHTML = '';
+}
+
+function updateStopwatchDisplay() {
+    const milliseconds = Math.floor((stopwatchTime % 1000) / 10);
+    const seconds = Math.floor((stopwatchTime / 1000) % 60);
+    const minutes = Math.floor((stopwatchTime / (1000 * 60)) % 60);
+    
+    const display = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}:${milliseconds.toString().padStart(2, '0')}`;
+    document.getElementById('stopwatchDisplay').textContent = display;
+}
+
+function recordLap() {
+    if (stopwatchRunning) {
+        lapCount++;
+        const lapTime = formatTime(stopwatchTime);
+        const lapItem = document.createElement('div');
+        lapItem.textContent = `Lap ${lapCount}: ${lapTime}`;
+        document.getElementById('lapTimes').prepend(lapItem);
+    }
+}
+
+function formatTime(time) {
+    const milliseconds = Math.floor((time % 1000) / 10);
+    const seconds = Math.floor((time / 1000) % 60);
+    const minutes = Math.floor((time / (1000 * 60)) % 60);
+    
+    return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}:${milliseconds.toString().padStart(2, '0')}`;
+}
+
+// 40. Hangman Game
+function playHangman() {
+    const words = [
+        'javascript', 'programming', 'developer', 'application', 'interface',
+        'computer', 'keyboard', 'monitor', 'database', 'algorithm'
+    ];
+    
+    setOutput(`
+        <h3>Hangman Game</h3>
+        <div id="hangmanWord" style="font-size: 2em; letter-spacing: 10px; margin: 20px 0;"></div>
+        <div id="hangmanDrawing" style="font-family: monospace; white-space: pre;"></div>
+        <div id="hangmanLetters" style="margin: 20px 0;"></div>
+        <div id="hangmanMessage"></div>
+        <button onclick="newHangmanGame()">New Game</button>
+    `);
+    
+    initializeHangman(words);
+}
+
+// Global hangman variables
+let hangmanSelectedWord = '';
+let hangmanGuessed = [];
+let hangmanWrongGuesses = 0;
+const hangmanMaxWrong = 6;
+
+function initializeHangman(words) {
+    // Reset the game
+    hangmanWrongGuesses = 0;
+    hangmanGuessed = [];
+    
+    // Select a random word
+    hangmanSelectedWord = words[Math.floor(Math.random() * words.length)];
+    
+    // Create alphabet buttons
+    const alphabet = 'abcdefghijklmnopqrstuvwxyz';
+    let buttonsHTML = '';
+    
+    for (let letter of alphabet) {
+        buttonsHTML += `<button class="letter-btn" onclick="guessHangmanLetter('${letter}')">${letter}</button>`;
+    }
+    
+    document.getElementById('hangmanLetters').innerHTML = buttonsHTML;
+    
+    // Update the word display and drawing
+    updateHangmanWord();
+    updateHangmanDrawing();
+}
+
+function guessHangmanLetter(letter) {
+    if (hangmanGuessed.indexOf(letter) === -1) {
+        hangmanGuessed.push(letter);
+        
+        if (hangmanSelectedWord.indexOf(letter) === -1) {
+            // Wrong guess
+            hangmanWrongGuesses++;
+            if (hangmanWrongGuesses >= hangmanMaxWrong) {
+                endHangmanGame(false);
+            }
+        } else if (!updateHangmanWord().includes('_')) {
+            // All letters guessed correctly
+            endHangmanGame(true);
+        }
+        
+        // Disable the clicked button
+        const buttons = document.getElementsByClassName('letter-btn');
+        for (let btn of buttons) {
+            if (btn.textContent === letter) {
+                btn.disabled = true;
+            }
+        }
+        
+        updateHangmanDrawing();
+    }
+}
+
+function updateHangmanWord() {
+    // Show guessed letters, hide others with underscore
+    let display = '';
+    for (let letter of hangmanSelectedWord) {
+        if (hangmanGuessed.includes(letter)) {
+            display += letter;
+        } else {
+            display += '_';
+        }
+        display += ' ';
+    }
+    
+    document.getElementById('hangmanWord').textContent = display.trim();
+    return display;
+}
+
+function updateHangmanDrawing() {
+    // Simple ASCII art for hangman stages
+    const hangmanStages = [
+        `
+  +---+
+  |   |
+      |
+      |
+      |
+      |
+=========`,
+        `
+  +---+
+  |   |
+  O   |
+      |
+      |
+      |
+=========`,
+        `
+  +---+
+  |   |
+  O   |
+  |   |
+      |
+      |
+=========`,
+        `
+  +---+
+  |   |
+  O   |
+ /|   |
+      |
+      |
+=========`,
+        `
+  +---+
+  |   |
+  O   |
+ /|\\  |
+      |
+      |
+=========`,
+        `
+  +---+
+  |   |
+  O   |
+ /|\\  |
+ /    |
+      |
+=========`,
+        `
+  +---+
+  |   |
+  O   |
+ /|\\  |
+ / \\  |
+      |
+=========`
+    ];
+    
+    document.getElementById('hangmanDrawing').textContent = hangmanStages[hangmanWrongGuesses];
+}
+
+function endHangmanGame(isWin) {
+    // Disable all letter buttons
+    const buttons = document.getElementsByClassName('letter-btn');
+    for (let btn of buttons) {
+        btn.disabled = true;
+    }
+    
+    const messageElement = document.getElementById('hangmanMessage');
+    if (isWin) {
+        messageElement.innerHTML = '<span style="color: green; font-weight: bold;">You won!</span>';
+    } else {
+        messageElement.innerHTML = `<span style="color: red; font-weight: bold;">Game over! The word was: ${hangmanSelectedWord}</span>`;
+    }
+}
+
+function newHangmanGame() {
+    const words = [
+        'javascript', 'programming', 'developer', 'application', 'interface',
+        'computer', 'keyboard', 'monitor', 'database', 'algorithm'
+    ];
+    
+    initializeHangman(words);
+    document.getElementById('hangmanMessage').textContent = '';
+}
+</script>
+</body>
+</html>
